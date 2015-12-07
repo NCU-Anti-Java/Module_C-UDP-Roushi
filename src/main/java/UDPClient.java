@@ -1,5 +1,3 @@
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
@@ -9,27 +7,61 @@ import java.net.InetAddress;
  */
 public class UDPClient
 {
-    public static void main(String args[]) throws Exception
+    public static final int ConnectionCount = 2;
+
+    private int xPos;
+    private int yPos;
+    private InetAddress[] IPAddresses;
+
+    UDPClient(String[] IPs) throws Exception
     {
-        BufferedReader keyIn = new BufferedReader(new InputStreamReader(System.in));
+        xPos = 0;
+        yPos = 0;
+        IPAddresses = new InetAddress[ConnectionCount];
 
+        if (IPs.length != ConnectionCount)
+        {
+            throw new Exception();
+        }
+
+        for (int i = 0; i < ConnectionCount; i++)
+        {
+            IPAddresses[i] = InetAddress.getByName(IPs[i]);
+        }
+    }
+
+    public void Start() throws Exception
+    {
+        int counter = 0;
+        while(true)
+        {
+            Thread.sleep(200);
+            counter += 2;
+            SendData();
+
+            if (counter == 20)
+            {
+                xPos = xPos > 99 ? 0 : xPos + 1;
+                yPos = yPos > 99 ? 0 : yPos + 1;
+                counter = 0;
+            }
+        }
+    }
+
+    private void SendData() throws Exception
+    {
         DatagramSocket clientSocket = new DatagramSocket();
-        InetAddress IPAddress = InetAddress.getByName("localhost");
-
         byte[] sendData;
-        byte[] receiveData = new byte[1024];
 
-        String sentence = keyIn.readLine();
+        String sentence = xPos + " " + yPos;
         sendData = sentence.getBytes();
 
-        DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, 9876);
-        clientSocket.send(sendPacket);
+        for (int i = 0; i < ConnectionCount; i++)
+        {
+            DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddresses[i], 9876);
+            clientSocket.send(sendPacket);
+        }
 
-        DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
-        clientSocket.receive(receivePacket);
-
-        String receiveSentence = new String(receivePacket.getData());
-        System.out.println("Receive: " + receiveSentence);
         clientSocket.close();
     }
 }
