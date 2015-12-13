@@ -1,31 +1,31 @@
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.net.InetAddress;
 
 /**
+ * UDP Server which receive message
+ *
  * Created by fntsr on 2015/11/5.
  */
-public class UDPServer
+public abstract class UDPServer
 {
     public void Start() throws Exception
     {
-        Connect();
-    }
-
-    private void Connect() throws Exception
-    {
+        final int SIZE = 1024;
         DatagramSocket serverSocket = new DatagramSocket(9876);
-        byte[] receiveData = new byte[1024];
+        byte[] receiveData = new byte[SIZE];
 
+        // noinspection InfiniteLoopStatement
         while (true)
         {
-            DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
-            serverSocket.receive(receivePacket);
-
-            String sentence = new String(receivePacket.getData());
-            String pos[] = sentence.split(" ");
-            assert(pos.length == 2);
-            System.out.println("(" + pos[0] + ", " + pos[1] + ")");
+            DatagramPacket packet = new DatagramPacket(receiveData, receiveData.length);
+            serverSocket.receive(packet);
+            String message = new String(packet.getData(), packet.getOffset(), packet.getLength());
+            onReceiveMessage(message);
         }
+    }
+
+    protected void onReceiveMessage(String message) throws Exception
+    {
+        throw new UnsupportedOperationException();
     }
 }

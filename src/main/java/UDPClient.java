@@ -1,67 +1,63 @@
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.util.Vector;
 
 /**
+ * UDP Client which send message
+ *
  * Created by fntsr on 2015/11/5.
  */
-public class UDPClient
+public abstract class UDPClient
 {
-    public static final int ConnectionCount = 2;
+    public int frequency;
+    protected Vector<InetAddress> IPAddresses;
 
-    private int xPos;
-    private int yPos;
-    private InetAddress[] IPAddresses;
-
-    UDPClient(String[] IPs) throws Exception
+    public UDPClient() throws Exception
     {
-        xPos = 0;
-        yPos = 0;
-        IPAddresses = new InetAddress[ConnectionCount];
+        IPAddresses = new Vector<>();
+    }
 
-        if (IPs.length != ConnectionCount)
-        {
-            throw new Exception();
-        }
+    public UDPClient(String[] IPs) throws Exception
+    {
+        IPAddresses = new Vector<>();
 
-        for (int i = 0; i < ConnectionCount; i++)
+        for (String IP : IPs)
         {
-            IPAddresses[i] = InetAddress.getByName(IPs[i]);
+            IPAddresses.add(InetAddress.getByName(IP));
         }
     }
 
-    public void Start() throws Exception
+    public void sendData(String message) throws Exception
     {
-        int counter = 0;
-        while(true)
-        {
-            Thread.sleep(200);
-            counter += 2;
-            SendData();
+        byte[] data = message.getBytes();
 
-            if (counter == 20)
-            {
-                xPos = xPos > 99 ? 0 : xPos + 1;
-                yPos = yPos > 99 ? 0 : yPos + 1;
-                counter = 0;
-            }
-        }
-    }
-
-    private void SendData() throws Exception
-    {
         DatagramSocket clientSocket = new DatagramSocket();
-        byte[] sendData;
 
-        String sentence = xPos + " " + yPos;
-        sendData = sentence.getBytes();
-
-        for (int i = 0; i < ConnectionCount; i++)
+        for (InetAddress IPAddress: IPAddresses)
         {
-            DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddresses[i], 9876);
+            DatagramPacket sendPacket = new DatagramPacket(data, data.length, IPAddress, 9876);
             clientSocket.send(sendPacket);
         }
 
         clientSocket.close();
+    }
+
+    public void start() throws Exception
+    {
+        // default frequency setting if it not be initialized.
+        frequency = (frequency == 0) ? 10 : frequency;
+
+        // noinspection InfiniteLoopStatement
+        while(true)
+        {
+            Thread.sleep(1000/frequency);
+            onCycle();
+        }
+    }
+
+    protected void onCycle() throws Exception
+    {
+        throw new UnsupportedOperationException();
     }
 }
