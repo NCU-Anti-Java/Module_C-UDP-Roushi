@@ -1,5 +1,7 @@
+package AntiJava.UDPUpdateServer;
+
 /**
- * Server endpoint of prototype homework
+ * UDP Server endpoint of prototype homework
  *
  * Created by fntsr on 2015/11/5.
  */
@@ -8,7 +10,7 @@ public class Server
     public static void main(String[] args) throws Exception
     {
         MyServer server = new MyServer();
-        server.Start();
+        server.start();
     }
 
     private static class MyServer extends UDPServer

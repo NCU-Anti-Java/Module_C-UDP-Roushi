@@ -1,3 +1,5 @@
+package AntiJava.UDPUpdateServer;
+
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 
@@ -8,7 +10,7 @@ import java.net.DatagramSocket;
  */
 public abstract class UDPServer
 {
-    public void Start() throws Exception
+    public void start() throws Exception
     {
         final int SIZE = 1024;
         DatagramSocket serverSocket = new DatagramSocket(9876);

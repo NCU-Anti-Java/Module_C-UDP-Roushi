@@ -1,8 +1,10 @@
+package AntiJava.UDPBrocastClient;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
 /**
- * Client endpoint of prototype homework
+ * UDP Client endpoint of prototype homework
  *
  * Created by fntsr on 2015/11/5.
  */
