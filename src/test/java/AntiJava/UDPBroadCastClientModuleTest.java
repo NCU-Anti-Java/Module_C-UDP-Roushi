@@ -107,6 +107,22 @@ public class UDPBroadCastClientModuleTest
         Thread.sleep(1000);
         udpBroadCastClientModule.stopUDPBroadCast();
 
-        verify(sender, times(5)).send("UPDATE Character 1 3 10 0 0");
+        verify(sender, atLeast(3)).send("UPDATE Character 1 3 10 0 0");
+    }
+
+    /**
+     * 測試若沒有 CDC 訊息是否還會送出資訊
+     * @throws Exception
+     */
+    @Test
+    public void testNoInfo() throws Exception
+    {
+        when(centralizedDataCenter.getUpdateInfo()).thenReturn(new Vector<>());
+
+        udpBroadCastClientModule.startUDPBroadCast();
+        Thread.sleep(1000);
+        udpBroadCastClientModule.stopUDPBroadCast();
+
+        verify(sender, never()).send(anyString());
     }
 }

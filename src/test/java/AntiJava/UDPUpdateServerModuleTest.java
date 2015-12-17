@@ -52,10 +52,10 @@ public class UDPUpdateServerModuleTest
         Thread.sleep(1000);
         udpUpdateServerModule.stopUDPServer();
 
-        verify(dynamicObjectModule, times(0)).addVirtualCharacter(anyInt());
-        verify(dynamicObjectModule, times(0)).addItem(anyString(), anyInt(), anyBoolean(), anyInt(), anyInt());
-        verify(dynamicObjectModule, times(0)).updateVirtualCharacter(anyInt(), anyInt(), anyInt(), anyInt(), anyInt());
-        verify(dynamicObjectModule, times(0)).updateItem(anyInt(), anyBoolean(), anyInt());
+        verify(dynamicObjectModule, never()).addVirtualCharacter(anyInt());
+        verify(dynamicObjectModule, never()).addItem(anyString(), anyInt(), anyBoolean(), anyInt(), anyInt());
+        verify(dynamicObjectModule, never()).updateVirtualCharacter(anyInt(), anyInt(), anyInt(), anyInt(), anyInt());
+        verify(dynamicObjectModule, never()).updateItem(anyInt(), anyBoolean(), anyInt());
     }
 
     /**
@@ -163,10 +163,10 @@ public class UDPUpdateServerModuleTest
         Thread.sleep(1000);
         udpUpdateServerModule.stopUDPServer();
 
-        verify(dynamicObjectModule, times(0)).addVirtualCharacter(anyInt());
-        verify(dynamicObjectModule, times(0)).addItem(anyString(), anyInt(), anyBoolean(), anyInt(), anyInt());
-        verify(dynamicObjectModule, times(0)).updateVirtualCharacter(anyInt(), anyInt(), anyInt(), anyInt(), anyInt());
-        verify(dynamicObjectModule, times(0)).updateItem(anyInt(), anyBoolean(), anyInt());
+        verify(dynamicObjectModule, never()).addVirtualCharacter(anyInt());
+        verify(dynamicObjectModule, never()).addItem(anyString(), anyInt(), anyBoolean(), anyInt(), anyInt());
+        verify(dynamicObjectModule, never()).updateVirtualCharacter(anyInt(), anyInt(), anyInt(), anyInt(), anyInt());
+        verify(dynamicObjectModule, never()).updateItem(anyInt(), anyBoolean(), anyInt());
     }
 
     /**
@@ -191,9 +191,9 @@ public class UDPUpdateServerModuleTest
         Thread.sleep(1000);
         udpUpdateServerModule.stopUDPServer();
 
-        verify(dynamicObjectModule, times(0)).addVirtualCharacter(anyInt());
-        verify(dynamicObjectModule, times(0)).addItem(anyString(), anyInt(), anyBoolean(), anyInt(), anyInt());
-        verify(dynamicObjectModule, times(0)).updateVirtualCharacter(anyInt(), anyInt(), anyInt(), anyInt(), anyInt());
-        verify(dynamicObjectModule, times(0)).updateItem(anyInt(), anyBoolean(), anyInt());
+        verify(dynamicObjectModule, never()).addVirtualCharacter(anyInt());
+        verify(dynamicObjectModule, never()).addItem(anyString(), anyInt(), anyBoolean(), anyInt(), anyInt());
+        verify(dynamicObjectModule, never()).updateVirtualCharacter(anyInt(), anyInt(), anyInt(), anyInt(), anyInt());
+        verify(dynamicObjectModule, never()).updateItem(anyInt(), anyBoolean(), anyInt());
     }
 }
