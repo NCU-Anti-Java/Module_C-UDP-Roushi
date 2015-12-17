@@ -10,18 +10,20 @@ import java.io.InputStreamReader;
  */
 public class Client
 {
-    private static final int ConnectionCount = 2;
+    private static final int ConnectionCount = 1;
 
     public static void main(String[] args) throws Exception
     {
         String[] IPAddresses = new String[ConnectionCount];
         BufferedReader keyIn = new BufferedReader(new InputStreamReader(System.in));
 
+        System.out.println("Please Enter " + ConnectionCount + " IP address");
         for (int i = 0; i < ConnectionCount; i++)
         {
             IPAddresses[i] = keyIn.readLine();
         }
 
+        System.out.println("Start Client");
         MyClient client = new MyClient(IPAddresses);
         client.frequency = 5;
         client.start();
