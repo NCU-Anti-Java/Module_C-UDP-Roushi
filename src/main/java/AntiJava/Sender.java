@@ -11,14 +11,18 @@ import java.util.Vector;
 public class Sender
 {
     public Vector<InetAddress> IPAddresses;
+    public DatagramSocket clientSocket;
+
+    public Sender() throws Exception
+    {
+        clientSocket = new DatagramSocket();
+    }
 
     public void send(String message) throws Exception
     {
         for (InetAddress IPAddress: IPAddresses)
         {
             byte[] data = message.getBytes();
-
-            DatagramSocket clientSocket = new DatagramSocket();
 
             DatagramPacket sendPacket = new DatagramPacket(data, data.length, IPAddress, 9876);
             clientSocket.send(sendPacket);

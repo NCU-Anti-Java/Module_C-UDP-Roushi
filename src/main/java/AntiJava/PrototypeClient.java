@@ -2,6 +2,7 @@ package AntiJava;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.net.InetAddress;
 
 /**
  * UDP Client endpoint of prototype homework
@@ -17,7 +18,7 @@ public class PrototypeClient
         int xPos = 0;
         int yPos = 0;
         int counter = 0;
-        UDPClient client;
+        Sender sender;
         String[] IPAddresses = new String[ConnectionCount];
         BufferedReader keyIn = new BufferedReader(new InputStreamReader(System.in));
 
@@ -28,7 +29,12 @@ public class PrototypeClient
         }
 
         System.out.println("Start Client");
-        client = new UDPClient(IPAddresses);
+        sender = new Sender();
+
+        for (String IP : IPAddresses)
+        {
+            sender.IPAddresses.add(InetAddress.getByName(IP));
+        }
 
         //noinspection InfiniteLoopStatement
         while (true)
@@ -42,7 +48,7 @@ public class PrototypeClient
                 yPos = yPos > 99 ? 0 : yPos + 1;
                 counter = 0;
             }
-            client.sendData(sentence);
+            sender.send(sentence);
             Thread.sleep(200);
         }
     }
