@@ -8,12 +8,16 @@ import java.io.InputStreamReader;
  *
  * Created by fntsr on 2015/11/5.
  */
-public class ProtoytypeClient
+public class PrototypeClient
 {
     private static final int ConnectionCount = 1;
 
     public static void main(String[] args) throws Exception
     {
+        int xPos = 0;
+        int yPos = 0;
+        int counter = 0;
+        UDPClient client;
         String[] IPAddresses = new String[ConnectionCount];
         BufferedReader keyIn = new BufferedReader(new InputStreamReader(System.in));
 
@@ -24,30 +28,10 @@ public class ProtoytypeClient
         }
 
         System.out.println("Start Client");
-        UDPClient client = new UDPClient(IPAddresses);
-        client.sendListener = new SenderListener(client);
-        client.frequency = 5;
-        client.start();
-        client.run();
-    }
+        client = new UDPClient(IPAddresses);
 
-    private static class SenderListener implements ISenderListener
-    {
-        private int xPos;
-        private int yPos;
-        private int counter;
-        private UDPClient client;
-
-        public SenderListener(UDPClient client) throws Exception
-        {
-            xPos = 0;
-            yPos = 0;
-            counter = 0;
-            this.client = client;
-        }
-
-        @Override
-        public void onCycle() throws Exception
+        //noinspection InfiniteLoopStatement
+        while (true)
         {
             counter += 2;
             String sentence = xPos + " " + yPos;
@@ -59,6 +43,7 @@ public class ProtoytypeClient
                 counter = 0;
             }
             client.sendData(sentence);
+            Thread.sleep(200);
         }
     }
 }
