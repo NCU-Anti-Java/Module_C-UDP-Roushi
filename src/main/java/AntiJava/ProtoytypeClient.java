@@ -1,4 +1,4 @@
-package AntiJava.UDPBrocastClient;
+package AntiJava;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -8,7 +8,7 @@ import java.io.InputStreamReader;
  *
  * Created by fntsr on 2015/11/5.
  */
-public class Client
+public class ProtoytypeClient
 {
     private static final int ConnectionCount = 1;
 
@@ -24,28 +24,30 @@ public class Client
         }
 
         System.out.println("Start Client");
-        MyClient client = new MyClient(IPAddresses);
+        UDPClient client = new UDPClient(IPAddresses);
+        client.sendListener = new SenderListener(client);
         client.frequency = 5;
         client.start();
+        client.run();
     }
 
-    private static class MyClient extends UDPClient
+    private static class SenderListener implements ISenderListener
     {
         private int xPos;
         private int yPos;
         private int counter;
+        private UDPClient client;
 
-        public MyClient(String[] IPs) throws Exception
+        public SenderListener(UDPClient client) throws Exception
         {
-            super(IPs);
-
             xPos = 0;
             yPos = 0;
             counter = 0;
+            this.client = client;
         }
 
         @Override
-        protected void onCycle() throws Exception
+        public void onCycle() throws Exception
         {
             counter += 2;
             String sentence = xPos + " " + yPos;
@@ -56,7 +58,7 @@ public class Client
                 yPos = yPos > 99 ? 0 : yPos + 1;
                 counter = 0;
             }
-            sendData(sentence);
+            client.sendData(sentence);
         }
     }
 }
